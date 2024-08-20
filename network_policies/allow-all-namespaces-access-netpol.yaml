@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-namespace-access-netpol
+  name: allow-all-namespaces-access-netpol
   namespace: test-2
 spec:
   podSelector:

@@ -1,1 +1,0 @@
-unbuffer ./kube-bench --config-dir /root/cfg --config /root/cfg/config.yaml | ansi2html > /var/www/html/index.html
