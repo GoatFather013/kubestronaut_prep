@@ -15,7 +15,7 @@ Ensure that "connectivity-test-pod" can connect to the "web-server pod".
 If you are done or if you are stuck, you can find the example in the **solutions folder: test-1**  
 
 #### Test 2
-Ensure that "ns-connectivity-test-pod" can connect to the "web-server pod".  
+Ensure that "ns-connectivity-test-pods" can connect to the "web-server pod".  
 The connection needs open for all namespaces but limited to the labels on the "ns-connectivity-pods".   
 **DO NOT** re-create, change, or delete resources already created in the namespaces.
 
