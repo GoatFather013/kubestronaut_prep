@@ -27,8 +27,8 @@ Every minute a new report is being generated and published via a pod running in 
 
 Find out what the right port is and open the report in your webbrowser.  
 Fix the following items from the report:  
-*1.2.15 Ensure that the --profiling argument is set to false (Automated)*
-*1.2.29 Ensure that the API Server only makes use of Strong Cryptographic Ciphers*
+*1.2.15 Ensure that the --profiling argument is set to false (Automated)*  
+*1.2.29 Ensure that the API Server only makes use of Strong Cryptographic Ciphers*  
 *4.2.12 Ensure that the Kubelet only makes use of Strong Cryptographic Ciphers*  
   
 **Additionally:**  
