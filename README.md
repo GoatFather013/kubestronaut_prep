@@ -9,6 +9,6 @@ This repo is only used by me to test out various scenarios i've seen in courses,
 ### CKS Prep -- Note after 12 sept the exam will change.
 #### Test 1
 Ensure that connectivity-test-pod can connect to the web-server pod.
-DO NOT Re-create, Change or delete already created in the namespace.
+DO NOT re-create, change or delete resources already created in the namespace.
 
 If you are done or if you are stuck. you can find the example in the solutions folder: test-1
