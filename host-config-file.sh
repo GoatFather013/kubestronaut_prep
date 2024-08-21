@@ -1,0 +1,1 @@
+sudo apt-get install "linux-cloud-tools-$(uname -r)"
