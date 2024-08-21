@@ -1,5 +1,5 @@
 # Kubestronaut Prep
-## This is in no way endorsed or approved by the Linux Foundation or the Cloud Native Linux Foundation.
+## This is in no way endorsed or approved by the Linux Foundation or the Cloud Native Computing Foundation.
 This repo is only used by me to test out various scenarios i've seen in courses, real life and based on the domains and compentences for the actual exams.
 
 ### CKA Prep
