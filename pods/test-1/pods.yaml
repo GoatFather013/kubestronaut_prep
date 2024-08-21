@@ -25,11 +25,10 @@ spec:
     - -c
     - |
       while true; do
-        echo "Trying to connect to web-service" >> /var/log/webserver.log
-        if curl -s web-service; then
-          echo "$(date): Successfully connected to web-service" >> /var/log/webserver.log
+        if curl --silent --head --fail web-service > /dev/null; then
+          echo "$(date): webserver is active"
         else
-          echo "$(date): Failed to connect to web-service" >> /var/log/webserver.log
+          echo "$(date): webserver is inactive"
         fi
         sleep 5
       done
