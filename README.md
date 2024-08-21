@@ -1,7 +1,7 @@
 # Kubestronaut Prep
 
 ## This is in no way endorsed or approved by the Linux Foundation or the Cloud Native Computing Foundation.
-This repo is only used by me to test out various scenarios I've seen in courses, real life, and based on the domains and competencies for the actual exams.
+This repo is only used by me to test out various scenarios I've seen in courses, real life, and based on the domains and competencies for the actual exams. There are no validators for these tests. It's just to get a ballpark idea about what you can expect on the exams.
 
 ### CKA Prep
 
@@ -35,3 +35,5 @@ Fix the following items from the report:
 Ensure that ETCD, API Server and the kubelets can communicate with the following TLS version and Ciphers:  
 Minimum TLS version: 1.2  
 Allowed TLS Ciphers: TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 & TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+  
+If you are done or if you are stuck, you can find the example in the **solutions folder: test-3**
