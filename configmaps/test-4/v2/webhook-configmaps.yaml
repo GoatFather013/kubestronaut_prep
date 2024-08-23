@@ -1,0 +1,23 @@
+apiVersion: v1
+data:
+  allowed_patterns: "nginx*,alpine*,busybox*,ubuntu*,redis*,mysql*"
+kind: ConfigMap
+metadata:
+  name: webhook-config-allow
+  namespace: imagepolicywebhook
+---
+apiVersion: v1
+data:
+  disallowed_images: "*:latest"
+kind: ConfigMap
+metadata:
+  name: webhook-config-disallow
+  namespace: imagepolicywebhook
+---
+apiVersion: v1
+data:
+  exempted_namespaces: "kube-system,imagepolicywebhook"
+kind: ConfigMap
+metadata:
+  name: webhook-config-exempt
+  namespace: imagepolicywebhook

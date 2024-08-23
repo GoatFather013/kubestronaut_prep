@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: imagepolicywebhook
+  name: imagepolicywebhook
+  namespace: imagepolicywebhook
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: imagepolicywebhook
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: imagepolicywebhook
+      annotations:
+        glasbreaker.image-policy.k8s.io/ticket-1234: break-glass
+    spec:
+      volumes:
+      - name: cert
+        secret:
+          secretName: webhook-server
+          items:
+            - key: tls.crt
+              path: webhook-server.crt 
+      - name: key
+        secret:
+          secretName: webhook-server
+          items:
+            - key: tls.key
+              path: webhook-server.key
+      containers:
+      - image: francois013/imagepolicywebhook:1.6.0
+        name: imagepolicywebhook-container
+        ports:
+        - containerPort: 443
+        volumeMounts:
+        - name: cert
+          readOnly: true
+          mountPath: /etc/ssl/certs/
+        - name: key
+          readOnly: true
+          mountPath: /etc/ssl/private/
+        env:
+        - name: allowed_patterns
+          valueFrom:
+            configMapKeyRef:
+              name: webhook-config-allow
+              key: allowed_patterns
+        - name: disallowed_images
+          valueFrom:
+            configMapKeyRef:
+              name: webhook-config-disallow
+              key: disallowed_images
+        - name: exempted_namespaces
+          valueFrom:
+            configMapKeyRef:
+              name: webhook-config-exempt
+              key: exempted_namespaces
+        resources:
+          limits:
+            cpu: "1"
+            memory: "512Mi"
+          requests:
+            cpu: "100m"
+            memory: "64Mi"
+      serviceAccount: webhook-sa
+      serviceAccountName: webhook-sa
+      automountServiceAccountToken: true

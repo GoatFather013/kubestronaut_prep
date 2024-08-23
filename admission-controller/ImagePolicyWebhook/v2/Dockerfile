@@ -18,9 +18,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the webhook script
 COPY ./webhook-v2.py .
 
-# Use a non-root user
-RUN useradd -m webhookuser
-USER webhookuser
-
 # Set the entrypoint
 ENTRYPOINT ["python", "./webhook-v2.py"]

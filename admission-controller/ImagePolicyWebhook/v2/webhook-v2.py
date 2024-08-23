@@ -11,25 +11,13 @@ import ssl
 from io import BytesIO
 import json
 import fnmatch
+import os
 from kubernetes import client, config
 
-# Load Kubernetes configuration
-config.load_incluster_config()
-
-# Read the ConfigMap
-v1 = client.CoreV1Api()
-config_map_allow = v1.read_namespaced_config_map("webhook-config-allow", "imagepolicywebhook")
-config_map_disallow = v1.read_namespaced_config_map("webhook-config-disallow", "imagepolicywebhook")
-config_map_exempt = v1.read_namespaced_config_map("webhook-config-exempt", "imagepolicywebhook")
-
-# Define the allowed wildcard pattern and disallowed images
-# ALLOWED_PATTERN = ["nginx*", "alpine*", "busybox*", "ubuntu*", "redis*", "mysql*"
-# DISALLOWED_IMAGES = ["*:latest"]
-# EXEMPTED_NAMESPACES = ["kube-system", "imagepolicywebhook"]
-
-ALLOWED_PATTERN = config_map_allow.data['allowed_patterns'].split(',')
-DISALLOWED_IMAGES = config_map_disallow.data['disallowed_images'].split(',')
-EXEMPTED_NAMESPACES = config_map_exempt.data['exempted_namespaces'].split(',')
+# Load environment variables
+ALLOWED_PATTERN = os.getenv('allowed_patterns', '').split(',')
+DISALLOWED_IMAGES = os.getenv('disallowed_images', '').split(',')
+EXEMPTED_NAMESPACES = os.getenv('exempted_namespaces', '').split(',')
 
 # Print a message to indicate the server is starting
 print("Starting webhook")
@@ -39,39 +27,46 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
     # Set the HTTP protocol version
     protocol_version = "HTTP/1.1"
 
+    # Respond to a GET request
+    def do_GET(self):
+        self.send_response(200)  # Set the response status code
+        self.end_headers()  # Send an empty line to indicate the end of the headers
+        self.wfile.write(  # Send a response body
+            b"I am a imagePolicyWebhook example!\nYou need to post a json object of kind ImageReview"
+        )
+
     def do_POST(self):
+        # Print environment variables for debugging
+        print("Allowed patterns:", os.getenv('allowed_patterns'))
+        print("Disallowed images:", os.getenv('disallowed_images'))
+        print("Exempted namespaces:", os.getenv('exempted_namespaces'))
+
         # Read the length of the request body
         content_length = int(self.headers['Content-Length'])
-        # Read the request body
-        body = self.rfile.read(content_length)
-        # Parse the request body as JSON
-        request = json.loads(body)
+        post_data = self.rfile.read(content_length)
+        request = json.loads(post_data)
 
-        # Extract the namespace and image name from the request
-        namespace = request['request']['object']['metadata']['namespace']
-        image = request['request']['object']['spec']['containers'][0]['image']
+        # Log the incoming request for debugging
+        print("Incoming request:", json.dumps(request, indent=4))
+
+        try:
+            # Extract the namespace and image name from the request
+            namespace = request['spec']['namespace']
+            image = request['spec']['containers'][0]['image']
+            print(f"Namespace: {namespace}, Image: {image}")
+        except KeyError as e:
+            print(f"KeyError: {e}")
+            self.send_response(400)
+            self.end_headers()
+            self.wfile.write(b'Bad Request')
+            return
+
+        # Log the exempted namespaces for debugging
+        print("Exempted namespaces:", EXEMPTED_NAMESPACES)
 
         # Check if the namespace is exempted
         if namespace in EXEMPTED_NAMESPACES:
-            # Allow the request
-            response = {
-                "response": {
-                    "allowed": True
-                }
-            }
-        # Check if the image is disallowed
-        elif image in DISALLOWED_IMAGES:
-            # Deny the request
-            response = {
-                "response": {
-                    "allowed": False,
-                    "status": {
-                        "message": f"Image '{image}' is disallowed"
-                    }
-                }
-            }
-        # Check if the image matches the allowed pattern
-        elif any(fnmatch.fnmatch(image, pattern) for pattern in ALLOWED_PATTERN):
+            print(f"Namespace '{namespace}' is exempted.")
             # Allow the request
             response = {
                 "response": {
@@ -79,15 +74,29 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 }
             }
         else:
-            # Deny the request
-            response = {
-                "response": {
-                    "allowed": False,
-                    "status": {
-                        "message": f"Image '{image}' does not match the allowed pattern '{ALLOWED_PATTERN}'"
+            # Log the allowed patterns and disallowed images for debugging
+            print("Allowed patterns:", ALLOWED_PATTERN)
+            print("Disallowed images:", DISALLOWED_IMAGES)
+
+            # Check if the image is disallowed
+            if any(fnmatch.fnmatch(image, pattern) for pattern in DISALLOWED_IMAGES):
+                print(f"Image '{image}' is disallowed.")
+                # Deny the request
+                response = {
+                    "response": {
+                        "allowed": False,
+                        "status": {
+                            "message": f"Image '{image}' is disallowed"
+                        }
                     }
                 }
-            }
+            else:
+                # Allow the request
+                response = {
+                    "response": {
+                        "allowed": True
+                    }
+                }
 
         # Write the response
         self.send_response(200)
