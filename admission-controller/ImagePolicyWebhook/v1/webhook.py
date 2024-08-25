@@ -68,6 +68,8 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 "reason": "You broke the glass",
             }  # If annotations are found, modify the response status and message accordingly
 
+
+
         message = bytes(
             json.dumps(body_json), "utf-8"
         )  # Convert the response body from JSON to bytes
@@ -79,6 +81,8 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         response.write(message) 
         self.wfile.write(response.getvalue())  # Send the response body to the client
 
+        # Log the response being sent back
+        print("Sending response:", response)
 
 # Create an HTTP server on port 443 with an SSL context and certificate/key files
 httpd = HTTPServer(("0.0.0.0", 443), SimpleHTTPRequestHandler)
