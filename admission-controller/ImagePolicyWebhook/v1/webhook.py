@@ -70,15 +70,11 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
 
 
-        message = bytes(
-            json.dumps(body_json), "utf-8"
-        )  # Convert the response body from JSON to bytes
+        message = json.dumps(body_json).encode("utf-8") # Convert the response body from JSON to bytes
         self.send_response(200)  
         self.send_header("Content-Type", "application/json")
         self.send_header("Content-length", str(len(message)))
         self.end_headers()
-        response = BytesIO()
-        response.write(message) 
         self.wfile.write(response.getvalue())  # Send the response body to the client
 
         # Log the response being sent back
