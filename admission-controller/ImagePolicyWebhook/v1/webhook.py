@@ -82,7 +82,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(response.getvalue())  # Send the response body to the client
 
         # Log the response being sent back
-        print("Sending response:", response)
+        print("Sending response:", message.decode("utf-8"))
 
 # Create an HTTP server on port 443 with an SSL context and certificate/key files
 httpd = HTTPServer(("0.0.0.0", 443), SimpleHTTPRequestHandler)
