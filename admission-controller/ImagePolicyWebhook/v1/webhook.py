@@ -44,6 +44,9 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             "containers"
         )  # Get the image names from the request
 
+        # Log the incoming request for debugging
+        print("Incoming request:", json.dumps(body_json, indent=4))
+
         # Check if any of the image names match the allowed image name
         for i in images:
             image = i.get("image")

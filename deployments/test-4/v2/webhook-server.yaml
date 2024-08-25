@@ -32,7 +32,7 @@ spec:
             - key: tls.key
               path: webhook-server.key
       containers:
-      - image: francois013/imagepolicywebhook:0.0.3
+      - image: francois013/imagepolicywebhook:v1-latest
         name: imagepolicywebhook-container
         ports:
         - containerPort: 443
