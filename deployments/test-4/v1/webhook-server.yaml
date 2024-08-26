@@ -34,6 +34,10 @@ spec:
         name: imagepolicywebhook
         ports:
         - containerPort: 443
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "512Mi"
         volumeMounts:
         - name: cert
           readOnly: true
