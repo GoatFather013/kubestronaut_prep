@@ -78,7 +78,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         self.send_header("Content-Type", "application/json")
         self.send_header("Content-length", str(len(message)))
         self.end_headers()
-        self.wfile.write(response.getvalue())  # Send the response body to the client
+        self.wfile.write(message.getvalue())  # Send the response body to the client
 
         # Log the response being sent back
         print("Sending response:", message.decode("utf-8"))
