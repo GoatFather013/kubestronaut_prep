@@ -14,23 +14,25 @@ spec:
     spec:
       containers:
       - name: insecure-container
-        image: insecure-image:latest
+        image: nginx:latest
         ports:
         - containerPort: 8080
         # Run as root user
         securityContext:
           runAsUser: 0
-        # Allow privileged mode
-        securityContext:
           privileged: true
-        # Allow all capabilities
-        securityContext:
-          capabilities:
-            add: ["ALL"]
+          add: ["ALL"]
         # Mount sensitive host paths
         volumeMounts:
         - name: host-volume
           mountPath: /host
+        resources:
+          limits:
+            cpu: "1"
+            memory: "512Mi"
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
       volumes:
       - name: host-volume
         hostPath:
