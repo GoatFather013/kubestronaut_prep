@@ -45,4 +45,6 @@ shutdownGracePeriodCriticalPods: 0s
 staticPodPath: /etc/kubernetes/manifests
 streamingConnectionIdleTimeout: 0s
 syncFrequency: 0s
+tlsCertFile: /etc/kubernetes/pki/mtls/probe/kubelet-probe.crt
+tlsPrivateKeyFile: /etc/kubernetes/pki/mtls/probe/kubelet-probe.key
 volumeStatsAggPeriod: 0s
