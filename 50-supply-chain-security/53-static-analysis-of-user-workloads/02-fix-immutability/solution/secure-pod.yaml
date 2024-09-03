@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: secure-pod-1
+spec:
+  securityContext:
+    runAsUser: 10001
+    runAsGroup: 2000
+  containers:
+  - name: secure-container
+    image: nginx
+    ports:
+    - containerPort: 80
+    securityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+    volumeMounts:
+    - name: log-volume
+      mountPath: /var/log/nginx
+    resources:
+      limits:
+        cpu: "1"
+        memory: "512Mi"
+  volumes:
+  - name: log-volume
+    emptyDir: {}

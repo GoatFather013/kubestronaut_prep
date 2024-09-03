@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: secure-deployment-2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: secure-app
+  template:
+    metadata:
+      labels:
+        app: secure-app
+    spec:
+      securityContext:
+        runAsUser: 10001
+      containers:
+      - name: secure-container
+        image: mysql:latest
+        ports:
+        - containerPort: 3306
+        securityContext:
+          privileged: false
+          readOnlyRootFilesystem: true
+        resources:
+          limits:
+            cpu: "1"
+            memory: "512Mi"
+          requests:
+            cpu: "0.5"
+            memory: "256Mi"
+        volumeMounts:
+        - name: mysql-volume
+          mountPath: /var/lib/mysql
+      volumes:
+      - emptyDir: {}
+        name: mysql-volume
