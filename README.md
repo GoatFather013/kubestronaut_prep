@@ -4,6 +4,8 @@
 
 This repo is only used by me to test out various scenarios I've seen in courses, real life, and based on the domains and competencies for the actual exams. There are no validators for these tests. It's just to get a ballpark idea about what you can expect on the exams.
 
+## Information will be moved towards the WIKI in this project.
+
 ### CKA Prep
 
 ### CKAD Prep
