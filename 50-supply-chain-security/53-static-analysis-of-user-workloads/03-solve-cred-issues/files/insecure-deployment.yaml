@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: insecure-deployment-3
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: insecure-app
+  template:
+    metadata:
+      labels:
+        app: insecure-app
+    spec:
+      containers:
+      - name: web-app
+        image: nginx
+        ports:
+        - containerPort: 80
+        env:
+        - name: DB_HOST
+          value: "very-secure-database.local"
+        - name: DB_USER
+          value: "root"
+        - name: DB_PASSWORD
+          value: "this is super secure"
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
