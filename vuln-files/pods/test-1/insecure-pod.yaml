@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: insecure-pod
+spec:
+  securityContext: {}
+  containers:
+  - name: insecure-container
+    image: httpd:latest
+    resources:
+      limits:
+        cpu: "1"
+        memory: "512Mi"
+      requests:
+        cpu: "100m"
+        memory: "256Mi"
+    ports:
+    - containerPort: 8080
+    # Run as root user
+    securityContext:
+      readOnlyRootFilesystem: false
+      allowPrivilegeEscalation: true
+    # Mount sensitive host paths
+    volumeMounts:
+    - name: host-volume
+      mountPath: /host
+  volumes:
+  - name: host-volume
+    hostPath:
+      path: /
