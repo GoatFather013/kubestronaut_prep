@@ -5,7 +5,7 @@ FROM ubuntu:latest
 # Run as root user
 USER root
 
-# Install packages without specifying versions && creating caching layers
+# Install packages && creating caching layers
 RUN apt-get update -y vim
 RUN apt-get install -y
 RUN apt-get install -y curl
