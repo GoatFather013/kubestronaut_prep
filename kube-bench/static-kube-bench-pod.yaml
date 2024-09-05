@@ -7,22 +7,22 @@ metadata:
   namespace: kube-bench
 spec:
   containers:
-  - image: nginx:latest
-    name: kube-bench-pod
-    resources: 
-      limits:
-        memory: 128Mi
-        cpu: "0.5"
-      requests:
-        memory: 64Mi
-        cpu: "0.2"
-    volumeMounts:
-    - name: report-file
-      mountPath: /usr/share/nginx/html/index.html
+    - image: nginx:latest
+      name: kube-bench-pod
+      resources:
+        limits:
+          memory: 128Mi
+          cpu: '0.5'
+        requests:
+          memory: 64Mi
+          cpu: '0.2'
+      volumeMounts:
+        - name: report-file
+          mountPath: /usr/share/nginx/html/index.html
   dnsPolicy: ClusterFirst
   restartPolicy: Always
   volumes:
-  - name: report-file
-    hostPath:
-      path: /opt/kube-bench/var/www/html/index.html
-      type: File
+    - name: report-file
+      hostPath:
+        path: /opt/kube-bench/var/www/html/index.html
+        type: File
