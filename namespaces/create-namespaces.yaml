@@ -91,3 +91,13 @@ spec:
   finalizers:
   - kubernetes
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    kubernetes.io/metadata.name: falco-exercise1
+  name: falco-exercise1
+spec:
+  finalizers:
+  - kubernetes
+---

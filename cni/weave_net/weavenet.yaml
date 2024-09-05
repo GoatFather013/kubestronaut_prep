@@ -124,9 +124,6 @@ items:
               imagePullPolicy: Always
               command:
                 - /home/weave/init.sh
-              env:
-                - name: WEAVE_NETWORK
-                  value: "10.150.0.0/16"
               securityContext:
                 privileged: true
               volumeMounts:
@@ -153,8 +150,8 @@ items:
                     fieldRef:
                       apiVersion: v1
                       fieldPath: spec.nodeName
-                - name: WEAVE_NETWORK
-                  value: "10.150.0.0/16"
+                - name: IPALLOC_RANGE
+                  value: 10.150.0.0/16
               image: 'weaveworks/weave-kube:latest'
               imagePullPolicy: Always
               readinessProbe:
