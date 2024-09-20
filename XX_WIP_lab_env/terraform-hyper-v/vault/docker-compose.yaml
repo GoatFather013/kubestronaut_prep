@@ -1,0 +1,28 @@
+services:
+  vault:
+    build: .
+    ports:
+      - "8200:8200"
+      - "8201:8201"
+    environment:
+      VAULT_API_ADDR: https://vault.bunkerbouwers.nl:8201
+      VAULT_LOCAL_CONFIG: |
+        storage "file" {
+          path = "/vault/file"
+        }
+        listener "tcp" {
+          address = "127.0.0.1:8200"
+        }
+        listener "tcp" {
+          address = "0.0.0.0:8201"
+          tls_cert_file = "/etc/vault/ssl/cert.pem"
+          tls_key_file  = "/etc/vault/ssl/key.pem"
+        }
+        ui = true
+    volumes:
+      - vault-data:/vault/file
+    cap_add:
+      - IPC_LOCK
+
+volumes:
+  vault-data:
