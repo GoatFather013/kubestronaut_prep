@@ -401,3 +401,9 @@ FodyWeavers.xsd
 .terraform/
 terraform.*
 *.tfvars
+
+# Ignore certs
+*.pem
+
+# Ignore Iso
+*.iso
