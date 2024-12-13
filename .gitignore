@@ -396,3 +396,14 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Terrafrom ignor
+.terraform/
+terraform.*
+*.tfvars
+
+# Ignore certs
+*.pem
+
+# Ignore Iso
+*.iso
