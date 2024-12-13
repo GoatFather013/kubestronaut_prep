@@ -151,7 +151,7 @@ items:
                       apiVersion: v1
                       fieldPath: spec.nodeName
                 - name: IPALLOC_RANGE
-                  value: 10.150.0.0/16
+                  value: 192.168.0.0/16
               image: 'weaveworks/weave-kube:latest'
               imagePullPolicy: Always
               readinessProbe:
